@@ -14,6 +14,25 @@ const getToken = () => {
   }
 };
 
+export const checkAuth = () => {
+  return (dispatch) => {
+    return fetch("http://localhost:3001/current_user", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: getToken()
+      }
+    }).then((res) => {
+      console.log(res);
+      if (res.ok) {
+        return res.json().then(user => dispatch({type: AUTHENTICATED, payload: user}))
+      } else {
+        return Promise.reject(dispatch({type: NOT_AUTHENTICATED}))
+      }
+    });
+  };
+};
+
 export const signupUser = (credentials) => {
   return (dispatch) => {
     return fetch("http://localhost:3001/signup", {
@@ -51,6 +70,7 @@ export const loginUser = (credentials) => {
       },
       body: JSON.stringify({ user: credentials }),
     }).then((res) => {
+      console.log(res)
       if (res.ok) {
         setToken(res.headers.get("Authorization"));
         return res
