@@ -23,9 +23,12 @@ export const checkAuth = () => {
         Authorization: getToken()
       }
     }).then((res) => {
-      console.log(res);
       if (res.ok) {
-        return res.json().then(user => dispatch({type: AUTHENTICATED, payload: user}))
+        return res
+        .json()
+        .then((user) => {
+          (user !== null) ? dispatch({type: AUTHENTICATED, payload: user}) : Promise.reject(dispatch({type: NOT_AUTHENTICATED}))
+        })
       } else {
         return Promise.reject(dispatch({type: NOT_AUTHENTICATED}))
       }
