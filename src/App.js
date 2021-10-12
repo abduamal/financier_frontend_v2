@@ -5,12 +5,14 @@ import Login from "./components/auth/Login";
 import Homepage from "./components/Homepage";
 import Dashboard from "./components/Dashboard";
 import withAuth from "./components/auth/withAuth"
+import AccountsContainer from "./containers/AccountsContainer"
 
 function App() {
   return(
     <div>
       <Router>
         <NavigationBar />
+        <AccountsContainer/>
         <Switch>
           <Route exact path="/" component={Homepage} />
           <Route exact path="/dashboard" component={withAuth(Dashboard)} />
